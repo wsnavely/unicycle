@@ -1,2 +1,2 @@
 # Unicycle
-<a href="url"><img src="unicycle.png" align="left" height="48" width="48" ></a>
+<img src="unicycle.png" align="left" height=80" width="80">
