@@ -9,6 +9,7 @@ import sys
 import command
 
 refs = []
+pin_home=""
 
 class Callback(object):
     def __init__(self, start, end, callback):
@@ -45,19 +46,38 @@ class Unicycle(object):
             pin.AddFiniFunction(self.dismount)
         refs.append(fxn)
 
+class InstructionCounterUnicycle(Unicycle):
+    def __init__(self, start=0x0, end=0xFFFFFFFF):
+        def count(info):
+            self.ins_count += 1
+        def report():
+            sys.stderr.write(str(self.ins_count))
+
+        super(InstructionCounterUnicycle, self).__init__()
+        self.ins_count = 0
+        self.paint(start, end, count)
+        self.dismount = report
+
+def set_pin_home(val):
+    global pin_home
+    pin_home = val
+
 def ride(
         unicycle,
         cmd,
         args,
-        pinhome,
+        pinhome=None,
         stdin=None):
+    if pinhome == None:
+        pinhome = pin_home
+
     pin_py = os.path.join(pinhome, "source", "tools", "Python_Pin")
     pin_exe = os.path.join(pinhome, "pin")
     py_bin = os.path.join(pin_py, "obj-ia32", "Python_Pin.so")
-    pin_args = ["-t", py_bin, "-m", unicycle, "-a", "--", cmd] + args
+    pin_args = ["-t", py_bin, "-m", unicycle, "--", cmd] + args
     cmd = command.Command(pin_exe, pin_args) 
-    #cmd.run(stdin=stdin)
-    print cmd
+    cmd.run(stdin=stdin)
+    return (cmd.stdout, cmd.stderr, cmd.returncode)
 
 def get_arg_parser():
     parser = argparse.ArgumentParser(description="Let's ride a unicycle.")
@@ -105,9 +125,10 @@ if __name__ == "__main__":
         getopt.print_help()
         exit(1)
 
-    ride(
+    result = ride(
         args.unicycle, 
         args.cmd, 
         shlex.split(args.args), 
         pinhome, 
         args.input)
+    print result
