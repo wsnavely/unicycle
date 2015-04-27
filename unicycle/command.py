@@ -1,7 +1,4 @@
-import time
-import threading
 import subprocess
-import logging
 
 class Command(object):
     def __init__(
