@@ -52,7 +52,7 @@ def brute_force(\
         result = unicycle.ride(cycle, cmd, args, stdin=(next_guess))
         logging.debug(result)
         if success(result):
-            return (True, guess)
+            return (True, next_guess)
         stderr = result[1]
         lines = stderr.split("\n")
         count = int(lines[-1])
