@@ -16,6 +16,7 @@ def brute_force(cmd, guess):
         (stdout, stderr, rc) = unicycle.ride("examples/obfuscate_unicycle.py", cmd, [], stdin=(guess + ch))
         if "Incorrect!" not in stdout:
             print "Success!", guess
+            exit(0)
         count = int(stderr)
         counts.append((ch, count))
     counts.sort(key=lambda x:x[1], reverse=True)
