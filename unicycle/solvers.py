@@ -10,7 +10,8 @@ def brute_force(\
         guess,\
         choose,\
         success,\
-        alphabet):
+        alphabet,\
+        pad=0):
     """A brute force instruction counting solver template.
 
     This function takes two additional functions as input.  Theses
@@ -47,7 +48,7 @@ def brute_force(\
     logging.info("Guess{" + guess + "}")
     counts = []
     for next_ch in alphabet:
-        next_guess = guess + next_ch + "\n"
+        next_guess = (guess + next_ch).ljust(pad, "X") + "\n"
         result = unicycle.ride(cycle, cmd, args, stdin=(next_guess))
         logging.debug(result)
         if success(result):
@@ -66,4 +67,5 @@ def brute_force(\
                 rec_guess,\
                 choose,\
                 success,\
-                alphabet)
+                alphabet,\
+                pad)

@@ -12,5 +12,10 @@ for count in xrange(1,40):
     ic = int(lines[-1])
     results.append((count,ic))
 
-results.sort(key=lambda x:x[1], reverse=True)
-print results[:5]
+max_val = float(max([res[1] for res in results]))
+normalize = [(res[0], res[1]/max_val) for res in results]
+for res in normalize:
+    idx, val = res
+    
+    freq = int(val * 30)
+    print format(idx, '03d') + ": " + ("*" * freq)

@@ -1,5 +1,5 @@
-import unicycle.unicycle as uc
+import unicycle
 import pin
 
-icounter = uc.InstructionCounterUnicycle(start=0x00000000, end=0xffffffff)
+icounter = unicycle.InstructionCounterUnicycle(start=0x0804844c, end=0x08049db5)
 icounter.mount()
