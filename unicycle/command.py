@@ -1,6 +1,8 @@
 """A simple module for running shell commands."""
 
 import subprocess
+import logging
+import unicycle
 
 class Command(object):
     """This class provides an easy to use wrapper around Popen.
@@ -36,8 +38,8 @@ class Command(object):
 
     def run(self, stdin=None):
         """Run a command."""
-
         pkg = [self.cmd] + self.args
+        logging.debug(str(self))
         process = subprocess.Popen(
             pkg,
             stdin=subprocess.PIPE,
